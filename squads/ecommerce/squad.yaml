@@ -1,0 +1,53 @@
+squad:
+  name: ecommerce
+  version: "1.0"
+  description: "E-commerce squad for building online stores with product catalogs, cart/checkout, payment processing, and conversion optimization"
+  domain: ecommerce
+  agents:
+    - id: storefront-dev
+      name: Shelf
+      role: E-commerce frontend developer with product pages, cart, and checkout expertise
+      base: dev
+      file: agents/storefront-dev.md
+    - id: catalog-data-engineer
+      name: Catalog
+      role: Product data modeling specialist with SKU, inventory, and variant management
+      base: data-engineer
+      file: agents/catalog-data-engineer.md
+    - id: conversion-analyst
+      name: Convert
+      role: Conversion optimization analyst with funnel analysis and A/B testing
+      base: analyst
+      file: agents/conversion-analyst.md
+    - id: checkout-architect
+      name: Gate
+      role: Payment and checkout architect with PCI-DSS and order fulfillment expertise
+      base: architect
+      file: agents/checkout-architect.md
+  workflows:
+    - id: store-launch
+      name: Store Setup & Launch
+      file: workflows/store-launch.md
+  templates:
+    - id: prd-store
+      name: E-commerce PRD Template
+      file: templates/prd-store.md
+    - id: product-schema
+      name: Product Data Schema
+      file: templates/product-schema.md
+    - id: checkout-flow
+      name: Checkout Flow Specification
+      file: templates/checkout-flow.md
+  prompts:
+    - id: examples
+      name: E-commerce Example Prompts
+      file: prompts/examples.md
+  capabilities:
+    - Product catalog and variant management
+    - Shopping cart and checkout flow
+    - Payment gateway integration (Stripe, PayPal, Pix)
+    - Inventory management and stock tracking
+    - Order fulfillment and shipping integration
+    - Conversion funnel optimization
+    - Abandoned cart recovery
+    - Product search and filtering

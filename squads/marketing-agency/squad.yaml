@@ -1,0 +1,53 @@
+squad:
+  name: marketing-agency
+  version: "1.0"
+  description: "Marketing agency squad for campaign management, content creation, analytics dashboards, and brand identity systems"
+  domain: marketing
+  agents:
+    - id: content-dev
+      name: Pixel
+      role: Content and campaign developer with social media and CMS expertise
+      base: dev
+      file: agents/content-dev.md
+    - id: analytics-analyst
+      name: Dash
+      role: Marketing analytics specialist with attribution and funnel expertise
+      base: analyst
+      file: agents/analytics-analyst.md
+    - id: campaign-pm
+      name: Campfire
+      role: Campaign project manager with content calendar and budget expertise
+      base: pm
+      file: agents/campaign-pm.md
+    - id: brand-ux
+      name: Prism
+      role: Brand and visual identity specialist with design systems expertise
+      base: ux
+      file: agents/brand-ux.md
+  workflows:
+    - id: campaign-cycle
+      name: Campaign Creation Cycle
+      file: workflows/campaign-cycle.md
+  templates:
+    - id: prd-campaign
+      name: Campaign PRD Template
+      file: templates/prd-campaign.md
+    - id: content-calendar
+      name: Content Calendar Template
+      file: templates/content-calendar.md
+    - id: analytics-report
+      name: Analytics Report Template
+      file: templates/analytics-report.md
+  prompts:
+    - id: examples
+      name: Marketing Agency Example Prompts
+      file: prompts/examples.md
+  capabilities:
+    - Social media API integration (Meta, TikTok, LinkedIn, X)
+    - Content management system development
+    - A/B testing and conversion optimization
+    - Google Analytics and tag management
+    - Campaign performance dashboards
+    - Email marketing automation
+    - Brand guideline enforcement
+    - UTM tracking and attribution modeling

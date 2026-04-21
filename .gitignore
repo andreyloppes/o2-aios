@@ -1,0 +1,109 @@
+# ============================================================
+# Dependencies
+# ============================================================
+node_modules/
+**/node_modules/
+.pnp.*
+.yarn/
+bun.lockb
+
+# ============================================================
+# Build outputs
+# ============================================================
+dist/
+build/
+out/
+dashboard/dist/
+dashboard/.vite/
+dashboard/storybook-static/
+engine/dist/
+
+# ============================================================
+# Runtime state (engine)
+# ============================================================
+engine/data/
+engine/.workspace/
+engine/workspace/
+engine/*.db
+engine/*.db-shm
+engine/*.db-wal
+
+# ============================================================
+# Logs
+# ============================================================
+*.log
+logs/
+/tmp/
+.npm/
+
+# ============================================================
+# Environment / secrets
+# ============================================================
+.env
+.env.local
+.env.*.local
+!.env.example
+!.env.*.example
+**/.env.local
+**/.env.*.local
+*.pem
+*.key
+.keys/
+credentials.json
+service-account*.json
+
+# ============================================================
+# Test artifacts
+# ============================================================
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+e2e-results.json
+**/playwright/.cache/
+
+# ============================================================
+# Editor / OS
+# ============================================================
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+*.swp
+*.swo
+*~
+.Trash-*
+
+# ============================================================
+# AIOS runtime memory / squad caches
+# ============================================================
+.aios-core-memory/
+.aios-memory/
+.squads-design/
+memory/cache/
+memory/sessions/
+
+# ============================================================
+# Claude Code local state
+# ============================================================
+.claude/projects/
+.claude/sessions/
+.claude/cache/
+
+# ============================================================
+# Temporary / scratch
+# ============================================================
+tmp/
+temp/
+scratch/
+*.tmp
+*.bak
+
+# ============================================================
+# Dashboard legacy (Next.js predecessor) — keep source tracked,
+# ignore its build output
+# ============================================================
+dashboard/legacy/.next/
+dashboard/legacy/node_modules/
+dashboard/legacy/dist/

@@ -1,0 +1,83 @@
+version: 1
+project: o2-aios
+description: Plataforma de orquestração O2 — squads de negócio + framework Synkra v4
+timezone: America/Sao_Paulo
+language: pt-BR
+
+squads:
+  # Core O2 (negócio real)
+  - id: broker-leads
+    name: Broker de Leads O2
+    description: Venda de leads O2 aos franqueados — fiscal, scoring, pricing fiscal-aware.
+    domain: sales-ops
+    priority: P0
+    agents: [fiscal-analyst, lead-scorer, pricing-strategist]
+
+  - id: oxybroker
+    name: OxyBroker SaaS
+    description: Plataforma SaaS multi-tenant + Stripe subscriptions + growth analytics.
+    domain: saas
+    priority: P0
+
+  - id: mesa-redonda
+    name: Mesa Redonda IA O2
+    description: Squad de consulting — prepara encontros CFO/FP&A, storytelling financeiro, ROI.
+    domain: consulting
+    priority: P0
+
+  # Domínios de apoio (absorvidos do fork)
+  - id: marketing-agency
+    name: Agência de Marketing
+    description: Content, analytics, campaign PM, brand UX.
+    domain: marketing
+    priority: P1
+
+  - id: ecommerce
+    name: E-commerce Operations
+    description: Checkout, catálogo, conversão, storefront.
+    domain: ecommerce
+    priority: P2
+
+  - id: healthcare
+    name: Healthcare Compliance
+    description: HIPAA/LGPD, EHR, FHIR, audit trails.
+    domain: healthcare
+    priority: P2
+
+  - id: freelancer
+    name: Freelancer Ops
+    description: Proposta, billing, scope, time tracking.
+    domain: freelance-ops
+    priority: P2
+
+  # Excelência operacional (SynkraAI)
+  - id: kaizen
+    name: Kaizen — Melhoria Contínua
+    description: Observabilidade e recomendações (minds Goldratt/TOC, Kaplan-Norton/BSC, Doerr/OKR, Fowler).
+    domain: ops-excellence
+    priority: P0
+
+  - id: kaizen-v2
+    name: Kaizen v2
+    description: Kaizen refinado.
+    domain: ops-excellence
+    priority: P2
+
+  - id: legal-analyst-br
+    name: Legal Analyst BR
+    description: Análise processual pt-BR com minds de Ministros STF, DATAJUD, CNJ-aligned.
+    domain: legal
+    priority: P1
+
+  - id: apex
+    name: Apex Frontend Intelligence
+    description: 154 veto conditions + 50 intent chains + 101 heuristics (opt-in quando tocar UI).
+    domain: frontend-qa
+    priority: P2
+    optional: true
+
+  - id: deep-research
+    name: Deep Research
+    description: Investigação sistemática + análise em profundidade.
+    domain: research
+    priority: P1

@@ -1,0 +1,28 @@
+{
+  "mcpServers": {
+    "sqlite": {
+      "command": "npx",
+      "args": ["-y", "mcp-sqlite"],
+      "env": {
+        "SQLITE_DB_PATH": "/path/to/database.db"
+      }
+    },
+    "postgres": {
+      "command": "npx",
+      "args": ["-y", "mcp-postgres"],
+      "env": {
+        "DATABASE_URL": "postgresql://user:password@localhost:5432/dbname"
+      }
+    }
+  },
+  "_meta": {
+    "name": "Database MCP Connector",
+    "version": "1.0.0",
+    "description": "Query and manage SQLite and PostgreSQL databases from Claude Code",
+    "requires_one_of": ["SQLITE_DB_PATH", "DATABASE_URL"],
+    "docs": {
+      "sqlite": "https://www.npmjs.com/package/mcp-sqlite",
+      "postgres": "https://www.npmjs.com/package/mcp-postgres"
+    }
+  }
+}

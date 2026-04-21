@@ -1,0 +1,43 @@
+name: broker-leads
+version: 1.0.0
+description: Squad O2 pra venda de leads aos franqueados — fiscal, scoring e pricing.
+author: Andrey Lopes <growth@o2inc.com.br>
+license: MIT
+slashPrefix: broker
+domain: sales-ops
+
+aiox:
+  minVersion: "2.1.0"
+  type: squad
+
+components:
+  agents:
+    - fiscal-analyst.md
+    - lead-scorer.md
+    - pricing-strategist.md
+  tasks:
+    - analyze-lead-batch.md
+    - simulate-fiscal-scenario.md
+  workflows:
+    - leads-pipeline  # referenciado no .aios-core/development/workflows
+  checklists: []
+  templates: []
+  tools: []
+  scripts: []
+
+config:
+  language: pt-BR
+  timezone: America/Sao_Paulo
+  data_dir: data
+
+dependencies:
+  node: []
+  python: []
+  squads: []
+
+tags:
+  - o2
+  - leads
+  - fiscal
+  - pricing
+  - franquia

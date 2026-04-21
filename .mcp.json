@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json.schemastore.org/mcp",
+  "description": "O2-AIOS MCP presets — carrega conforme o squad/contexto em uso",
+  "presets": {
+    "o2-dev": {
+      "description": "Dev squad: coding, docs, file ops, browser",
+      "tokens_estimate": 30000,
+      "servers": ["context7", "desktop-commander", "playwright"]
+    },
+    "o2-research": {
+      "description": "Pesquisa: web search, docs, browser",
+      "tokens_estimate": 45000,
+      "servers": ["context7", "exa", "playwright"]
+    },
+    "o2-consulting": {
+      "description": "Mesa Redonda: Notion, Gmail, Calendar, Drive, Canva, docs",
+      "tokens_estimate": 55000,
+      "servers": ["notion", "gmail", "google-calendar", "google-drive", "canva", "context7"]
+    },
+    "o2-broker": {
+      "description": "Broker de Leads: sheets, gmail, notion, file ops",
+      "tokens_estimate": 35000,
+      "servers": ["google-sheets", "gmail", "notion", "desktop-commander"]
+    },
+    "o2-full": {
+      "description": "Tudo (pesado — só em M2 Pro com folga)",
+      "tokens_estimate": 80000,
+      "servers": ["context7", "desktop-commander", "playwright", "exa", "notion", "gmail", "google-calendar", "google-drive", "canva", "figma"]
+    }
+  },
+  "mcpServers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "description": "Documentação de libs sempre atualizada"
+    },
+    "desktop-commander": {
+      "command": "npx",
+      "args": ["-y", "@wonderwhy-er/desktop-commander@latest"],
+      "description": "File ops + terminal local"
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"],
+      "description": "Automação de browser"
+    },
+    "exa": {
+      "command": "npx",
+      "args": ["-y", "exa-mcp-server"],
+      "env": { "EXA_API_KEY": "${EXA_API_KEY}" },
+      "description": "Web search semântico (requer EXA_API_KEY)"
+    }
+  },
+  "note": "MCPs autenticados (Gmail, Calendar, Drive, Notion, Canva, Figma, Webflow, Task Manager) usam OAuth via claude.ai — já configurados no ~/.claude.json do usuário. Ver docs/mcp-setup.md para detalhes por squad."
+}

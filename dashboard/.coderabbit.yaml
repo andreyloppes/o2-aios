@@ -1,0 +1,103 @@
+# CodeRabbit — aiox-dashboard
+# Vite + React 19 SPA | Vitest | Playwright E2E | Supabase | TanStack Query
+# Inherits global config from root .coderabbit.yaml
+version: 2
+inheritance: true
+
+reviews:
+  path_instructions:
+    # ── Components ─────────────────────────────────────────────
+    - path: "src/components/**"
+      instructions: |
+        React 19 component library with Radix UI primitives.
+        - Props via interface (no inline object types)
+        - Use cn() from lib/utils for conditional classNames
+        - No direct DOM manipulation — use refs
+        - Prefer composition over prop drilling
+        - Components exportable without side effects
+        - Complex state → useReducer or Zustand store (not useState with objects)
+
+    # ── Hooks ──────────────────────────────────────────────────
+    - path: "src/hooks/**"
+      instructions: |
+        Custom React hooks.
+        - Must start with "use" prefix
+        - Explicit return types
+        - Side effects cleaned up in useEffect
+        - TanStack Query hooks use queryKey factories
+
+    # ── Stores (Zustand) ──────────────────────────────────────
+    - path: "src/stores/**"
+      instructions: |
+        Zustand state management.
+        - Each store typed with interface
+        - Use selectors to prevent unnecessary re-renders
+        - Async actions handle loading/error states
+        - No direct Supabase calls — use services layer
+
+    # ── Services ───────────────────────────────────────────────
+    - path: "src/services/**"
+      instructions: |
+        API/data service layer.
+        - All Supabase operations via typed client
+        - Typed responses (no `any`)
+        - Consistent error handling (try/catch with typed errors)
+        - No UI logic — services are framework-agnostic
+
+    # ── Tests (Unit / Integration) ─────────────────────────────
+    - path: "src/__tests__/**"
+      instructions: |
+        Vitest unit and integration tests.
+        - describe/it pattern with clear test names
+        - Mock external services, not internal modules
+        - Test behavior over implementation
+        - testing-library queries (getByRole > getByTestId)
+
+    # ── E2E Tests (Playwright) ─────────────────────────────────
+    - path: "e2e/**"
+      instructions: |
+        Playwright end-to-end tests.
+        - Page Object Model pattern
+        - Prefer locators (getByRole, getByText)
+        - Tests are independent — no shared state
+        - Use fixtures for setup/teardown
+        - Assert user-visible behavior, not DOM structure
+
+    # ── Engine (Bun backend) ───────────────────────────────────
+    - path: "engine/**"
+      instructions: |
+        Bun-based backend engine for AI agent orchestration.
+        - No Express/Node-specific APIs — Bun runtime only
+        - Types for all message payloads
+        - Graceful error handling (no unhandled rejections)
+
+    # ── Docker ─────────────────────────────────────────────────
+    - path: "Dockerfile"
+      instructions: |
+        Multi-stage Docker build.
+        - Build stages optimized for caching
+        - No secrets in Dockerfile — use build args or runtime env
+
+    - path: "docker-compose.yaml"
+      instructions: |
+        Local dev composition.
+        - Volume mounts don't leak host secrets
+        - Health checks defined for all services
+
+    # ── Config ─────────────────────────────────────────────────
+    - path: "vite.config.ts"
+      instructions: |
+        - Alias paths match tsconfig paths
+        - Chunk splitting strategy for optimal loading
+        - Env variable prefix: VITE_
+
+    - path: "playwright.config.ts"
+      instructions: |
+        - baseURL matches dev server
+        - Reasonable timeout values
+        - Projects cover required browsers
+
+  path_filters:
+    - "!**/patches/**"
+    - "!**/legacy/**"
+    - "!**/storybook-static/**"

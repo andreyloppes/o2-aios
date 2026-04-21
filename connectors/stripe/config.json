@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "stripe": {
+      "command": "npx",
+      "args": ["-y", "@stripe/mcp"],
+      "env": {
+        "STRIPE_SECRET_KEY": ""
+      }
+    }
+  },
+  "_meta": {
+    "name": "Stripe MCP Connector",
+    "version": "1.0.0",
+    "description": "Query payments, customers, subscriptions, and invoices from Stripe via Claude Code",
+    "requires": ["STRIPE_SECRET_KEY"],
+    "docs": "https://www.npmjs.com/package/@stripe/mcp"
+  }
+}

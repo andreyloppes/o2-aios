@@ -1,0 +1,53 @@
+squad:
+  name: healthcare
+  version: "1.0"
+  description: "Healthcare & clinic management squad with HIPAA/LGPD compliance, EHR integration, and clinical workflow automation"
+  domain: healthcare
+  agents:
+    - id: clinical-dev
+      name: Clinix
+      role: HIPAA-aware full stack developer with medical systems expertise
+      base: dev
+      file: agents/clinical-dev.md
+    - id: compliance-qa
+      name: Vera
+      role: Healthcare compliance reviewer and security auditor
+      base: qa
+      file: agents/compliance-qa.md
+    - id: health-analyst
+      name: Medis
+      role: Healthcare business analyst and clinical workflow specialist
+      base: analyst
+      file: agents/health-analyst.md
+    - id: ehr-data-engineer
+      name: Nexus
+      role: EHR and medical data modeling specialist
+      base: data-engineer
+      file: agents/ehr-data-engineer.md
+  workflows:
+    - id: clinic-setup
+      name: Clinic System Setup
+      file: workflows/clinic-setup.md
+  templates:
+    - id: prd-clinic
+      name: Clinic PRD Template
+      file: templates/prd-clinic.md
+    - id: soap-note
+      name: SOAP Note Data Structure
+      file: templates/soap-note.md
+    - id: compliance-checklist
+      name: HIPAA/LGPD Compliance Checklist
+      file: templates/compliance-checklist.md
+  prompts:
+    - id: examples
+      name: Healthcare Example Prompts
+      file: prompts/examples.md
+  capabilities:
+    - HIPAA and LGPD compliance enforcement
+    - HL7/FHIR data integration
+    - Patient data encryption and audit logging
+    - EHR system design and integration
+    - Clinical workflow automation
+    - Medical billing and coding support
+    - Appointment scheduling optimization
+    - Telemedicine infrastructure

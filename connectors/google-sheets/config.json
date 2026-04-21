@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "google-sheets": {
+      "command": "npx",
+      "args": ["-y", "mcp-google-sheets"],
+      "env": {
+        "GOOGLE_SERVICE_ACCOUNT_KEY": "/path/to/service-account.json"
+      }
+    }
+  },
+  "_meta": {
+    "name": "Google Sheets MCP Connector",
+    "version": "1.0.0",
+    "description": "Read, write, and manage Google Sheets from Claude Code",
+    "requires": ["GOOGLE_SERVICE_ACCOUNT_KEY"],
+    "docs": "https://www.npmjs.com/package/mcp-google-sheets"
+  }
+}

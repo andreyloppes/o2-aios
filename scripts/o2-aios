@@ -1,0 +1,187 @@
+#!/usr/bin/env bash
+# ============================================================
+# o2-aios — CLI launcher for the O2-AIOS dashboard
+# ============================================================
+# Usage:
+#   o2-aios open [path]    Register the folder and open the dashboard
+#   o2-aios status         Show engine/dashboard status
+#   o2-aios help           Show this help
+#
+# If no path is given, uses the current directory (like `code .`).
+# If the engine/dashboard is not running, spawns ./scripts/dev.sh.
+
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ENGINE_URL="${O2_AIOS_ENGINE_URL:-http://localhost:4002}"
+DASHBOARD_URL="${O2_AIOS_DASHBOARD_URL:-http://localhost:5173}"
+ENGINE_LOG="${O2_AIOS_ENGINE_LOG:-/tmp/o2-engine.log}"
+DASHBOARD_LOG="${O2_AIOS_DASHBOARD_LOG:-/tmp/o2-dashboard.log}"
+
+usage() {
+  cat <<EOF
+o2-aios — O2-AIOS launcher
+
+Usage:
+  o2-aios open [path]    Register folder and open the dashboard
+  o2-aios status         Check if engine/dashboard are up
+  o2-aios stop           Kill engine + dashboard processes
+  o2-aios help           Show this help
+
+Defaults:
+  ENGINE_URL     = $ENGINE_URL      (override via O2_AIOS_ENGINE_URL)
+  DASHBOARD_URL  = $DASHBOARD_URL   (override via O2_AIOS_DASHBOARD_URL)
+
+Examples:
+  cd ~/my-repo && o2-aios open .
+  o2-aios open ~/projects/oxybroker
+EOF
+}
+
+resolve_path() {
+  local raw="$1"
+  # Expand ~
+  raw="${raw/#\~/$HOME}"
+  # Convert to absolute (works even if path doesn't exist — we check later)
+  if [[ "$raw" = /* ]]; then
+    echo "$raw"
+  else
+    echo "$(cd "$raw" 2>/dev/null && pwd || echo "$(pwd)/$raw")"
+  fi
+}
+
+wait_for_url() {
+  local url="$1"
+  local timeout="${2:-30}"
+  local label="${3:-$url}"
+  local start=$(date +%s)
+  while true; do
+    if curl -sSf --max-time 2 "$url" >/dev/null 2>&1; then
+      return 0
+    fi
+    local now=$(date +%s)
+    if (( now - start >= timeout )); then
+      echo "  ⚠ $label não respondeu em ${timeout}s" >&2
+      return 1
+    fi
+    sleep 0.5
+  done
+}
+
+engine_up() {
+  curl -sSf --max-time 2 "$ENGINE_URL/api/health" >/dev/null 2>&1
+}
+
+dashboard_up() {
+  curl -sSf --max-time 2 "$DASHBOARD_URL" >/dev/null 2>&1
+}
+
+ensure_services() {
+  local need_spawn=0
+  if ! engine_up; then
+    echo "▶ engine down — subindo via scripts/dev.sh"
+    need_spawn=1
+  fi
+  if ! dashboard_up; then
+    echo "▶ dashboard down — subindo via scripts/dev.sh"
+    need_spawn=1
+  fi
+  if (( need_spawn == 1 )); then
+    if [ ! -x "$ROOT/scripts/dev.sh" ]; then
+      echo "❌ $ROOT/scripts/dev.sh não encontrado/executável" >&2
+      return 1
+    fi
+    # Spawn detached
+    nohup bash "$ROOT/scripts/dev.sh" >"$DASHBOARD_LOG" 2>&1 &
+    echo "  pid=$! log=$DASHBOARD_LOG"
+    echo -n "▶ aguardando engine..."
+    wait_for_url "$ENGINE_URL/api/health" 30 "engine" && echo " ok"
+    echo -n "▶ aguardando dashboard..."
+    wait_for_url "$DASHBOARD_URL" 40 "dashboard" && echo " ok"
+  fi
+}
+
+open_url() {
+  local url="$1"
+  if command -v open >/dev/null 2>&1; then
+    open "$url"
+  elif command -v xdg-open >/dev/null 2>&1; then
+    xdg-open "$url"
+  else
+    echo "→ abra manualmente: $url"
+  fi
+}
+
+cmd_open() {
+  local raw="${1:-.}"
+  local abs
+  abs="$(resolve_path "$raw")"
+
+  if [ ! -d "$abs" ]; then
+    echo "❌ pasta não existe: $abs" >&2
+    exit 1
+  fi
+
+  ensure_services
+
+  echo "▶ registrando projeto: $abs"
+  local json
+  json=$(printf '{"path":%s}' "$(printf '%s' "$abs" | python3 -c 'import json,sys;print(json.dumps(sys.stdin.read()))')")
+  local resp
+  resp=$(curl -sS -X POST "$ENGINE_URL/api/projects" \
+    -H "Content-Type: application/json" \
+    -d "$json" --max-time 5)
+
+  if echo "$resp" | grep -q '"error"'; then
+    echo "❌ falha ao registrar:" >&2
+    echo "$resp" >&2
+    exit 1
+  fi
+
+  # URL-encode the path for the query string (full encoding, including slashes)
+  local encoded
+  encoded=$(python3 -c 'import urllib.parse,sys;print(urllib.parse.quote(sys.argv[1], safe=""))' "$abs")
+  local url="$DASHBOARD_URL/?project=$encoded"
+  echo "▶ abrindo $url"
+  open_url "$url"
+}
+
+cmd_status() {
+  if engine_up; then
+    echo "✓ engine    $ENGINE_URL"
+  else
+    echo "✗ engine    $ENGINE_URL (down)"
+  fi
+  if dashboard_up; then
+    echo "✓ dashboard $DASHBOARD_URL"
+  else
+    echo "✗ dashboard $DASHBOARD_URL (down)"
+  fi
+}
+
+cmd_stop() {
+  for port in 4002 5173 5174; do
+    pid=$(lsof -ti:"$port" 2>/dev/null || true)
+    if [ -n "$pid" ]; then
+      echo "▶ matando PID $pid em :$port"
+      kill "$pid" 2>/dev/null || true
+    fi
+  done
+}
+
+main() {
+  local sub="${1:-help}"
+  case "$sub" in
+    open)   shift; cmd_open "${1:-.}" ;;
+    status) cmd_status ;;
+    stop)   cmd_stop ;;
+    help|-h|--help) usage ;;
+    *)
+      echo "Comando desconhecido: $sub" >&2
+      usage
+      exit 1
+      ;;
+  esac
+}
+
+main "$@"

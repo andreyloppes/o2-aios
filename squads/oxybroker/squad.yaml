@@ -1,0 +1,53 @@
+squad:
+  name: saas-startup
+  version: "1.0"
+  description: "SaaS startup squad for building scalable multi-tenant products with PLG metrics, subscription billing, and growth engineering"
+  domain: saas
+  agents:
+    - id: growth-dev
+      name: Scaler
+      role: Growth-focused developer with feature flags, A/B testing, and billing integration
+      base: dev
+      file: agents/growth-dev.md
+    - id: product-analyst
+      name: Pulse
+      role: Product and metrics analyst with PLG, cohort, and churn expertise
+      base: analyst
+      file: agents/product-analyst.md
+    - id: saas-architect
+      name: Tenon
+      role: Multi-tenant architecture specialist with subscription and isolation expertise
+      base: architect
+      file: agents/saas-architect.md
+    - id: onboarding-ux
+      name: Funnel
+      role: Onboarding UX specialist with conversion and activation expertise
+      base: ux
+      file: agents/onboarding-ux.md
+  workflows:
+    - id: feature-launch
+      name: Feature Development & Launch Cycle
+      file: workflows/feature-launch.md
+  templates:
+    - id: prd-saas
+      name: SaaS PRD Template
+      file: templates/prd-saas.md
+    - id: churn-analysis
+      name: Churn Analysis Template
+      file: templates/churn-analysis.md
+    - id: feature-flag-spec
+      name: Feature Flag Specification
+      file: templates/feature-flag-spec.md
+  prompts:
+    - id: examples
+      name: SaaS Startup Example Prompts
+      file: prompts/examples.md
+  capabilities:
+    - Multi-tenant architecture design
+    - Subscription billing with Stripe
+    - Feature flag and A/B testing systems
+    - Product-led growth metrics tracking
+    - Onboarding flow optimization
+    - Cohort and churn analysis
+    - Usage-based pricing implementation
+    - Tenant isolation and data partitioning

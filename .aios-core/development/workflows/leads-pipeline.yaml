@@ -1,0 +1,46 @@
+workflow:
+  id: leads-pipeline
+  name: Pipeline de Leads O2
+  description: Recebe lote de leads, scora, calcula pricing fiscal-aware, entrega cotação pro franqueado.
+  version: 1.0.0
+  type: sequence
+
+  sequence:
+    - step: score
+      agent: lead-scorer
+      squad: broker-leads
+      action: Classifica leads por ICP + probabilidade de conversão
+      notes: |
+        Usa framework firmographic 40pts + behavioral 40pts - risk flags 40pts.
+        Ground-truth: squads/broker-leads/data/cerebro-tributario.md
+      next: fiscal-check
+
+    - step: fiscal-check
+      agent: fiscal-analyst
+      squad: broker-leads
+      action: Confirma carga tributária atual
+      notes: |
+        Alerta se Reforma 2026 ou mudança de regime fiscal impacta a precificação.
+        Sempre checar Lucro Presumido 4.8M-78M e CNAE 7490-1/04.
+      next: price
+
+    - step: price
+      agent: pricing-strategist
+      squad: broker-leads
+      action: Calcula preço por lead considerando margem, impostos, ticket do franqueado
+      notes: |
+        Formula: custo * (1 + imposto_embutido_ads) / (1 - carga_fiscal) / (1 - margem)
+        Teto: 15% do ticket anual do franqueado.
+      next: quote
+
+    - step: quote
+      agent: pricing-strategist
+      squad: broker-leads
+      action: Monta cotacao final formatada (WhatsApp/email) para o franqueado
+      notes: Saida em pt-BR com quebra de custos explicitada.
+      next: complete
+
+  success_criteria:
+    - Todos os leads classificados e precificados
+    - Carga fiscal explicitada na cotacao
+    - Nenhum preco abaixo do custo de aquisicao + impostos

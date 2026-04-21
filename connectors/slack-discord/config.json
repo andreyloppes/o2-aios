@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "slack": {
+      "command": "npx",
+      "args": ["-y", "slack-mcp-server"],
+      "env": {
+        "SLACK_BOT_TOKEN": "",
+        "SLACK_TEAM_ID": ""
+      }
+    },
+    "discord": {
+      "command": "npx",
+      "args": ["-y", "discord-mcp"],
+      "env": {
+        "DISCORD_BOT_TOKEN": ""
+      }
+    }
+  },
+  "_meta": {
+    "name": "Slack & Discord MCP Connector",
+    "version": "1.0.0",
+    "description": "Send messages, read channels, and manage Slack workspaces and Discord servers from Claude Code",
+    "requires_one_of": ["SLACK_BOT_TOKEN", "DISCORD_BOT_TOKEN"],
+    "docs": {
+      "slack": "https://www.npmjs.com/package/slack-mcp-server",
+      "discord": "https://www.npmjs.com/package/discord-mcp"
+    }
+  }
+}
