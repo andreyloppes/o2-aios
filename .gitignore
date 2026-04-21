@@ -90,6 +90,12 @@ memory/sessions/
 .claude/projects/
 .claude/sessions/
 .claude/cache/
+.claude/todos/
+.claude/history.jsonl
+.claude/*.log
+# Skills and agents bundled with the repo are tracked:
+!.claude/skills/
+!.claude/agents/
 
 # ============================================================
 # Temporary / scratch
