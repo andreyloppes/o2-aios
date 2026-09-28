@@ -7,7 +7,7 @@ Fusão do AIOS-MASTER (conteúdo proprietário) com o melhor da SynkraAI (framew
 ## Quick Start
 
 ```bash
-cd ~/O2-AIOS
+cd ~/Projetos/O2-AIOS
 ./scripts/bootstrap.sh   # instala deps engine + dashboard
 ./scripts/dev.sh         # sobe tudo (engine :4002, dashboard :5173)
 ```
